@@ -7,7 +7,7 @@ class MyDocument extends Document{
                 <Head>
                     <meta name="description" content="Ecommerce web with Next.js and MongoDB" />
                     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" ></link>
-                    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+                    <script src="https://kit.fontawesome.com/a076d05399.js" crossOrigin="anonymous"></script>
                 </Head>
                 <body>
                     <Main />
