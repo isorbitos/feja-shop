@@ -1,5 +1,5 @@
-// const baseUrl = process.env.BASE_URL
-const baseUrl = "http://localhost:3000"
+const baseUrl = process.env.BASE_URL
+
 // const dev = process.env.NODE_ENV === 'development';
 export const getData = async (url, token) =>{
     //TODO pasiaiskint kaip globale su base url daryt
