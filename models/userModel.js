@@ -20,7 +20,7 @@ const userScema = new mongoose.Schema({
     },
     root:{
         type: Boolean,
-        default: true,
+        default: false,
     },
     avatar:{
         type: String,
