@@ -2,7 +2,7 @@ import connectDB from "../../../utils/connectDB";
 import Users from '../../../models/userModel'
 import jwt from 'jsonwebtoken'
 import { createAccessToken } from "../../../utils/generateToken";
-
+//TODO need to learn more about tokens
 connectDB()
 
 export default async (req, res)=>{
