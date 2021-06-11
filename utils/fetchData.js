@@ -1,8 +1,10 @@
 const baseUrl = process.env.BASE_URL
+const dev = process.env.NODE_ENV !== 'production';
+const server = dev ? 'http://localhost:3000' : 'https://feja-shop.vercel.app/';
+
 
 export const getData = async (url, token) =>{
-    //TODO pasiaiskint kaip globale su base url daryt
-    const res =  await fetch(`${baseUrl}/api/${url}`, {
+    const res =  await fetch(`${server}/api/${url}`, {
         method: 'GET',
         headers:{
             'Authorization':token
