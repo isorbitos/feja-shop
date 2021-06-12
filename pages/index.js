@@ -9,7 +9,7 @@ const Home = (props) =>{
 
 
   return(
-    <div>
+    <div className="products">
       <Head>
       <title>Žolių fėja - Home</title>
       </Head>

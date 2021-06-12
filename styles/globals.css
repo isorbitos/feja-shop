@@ -22,3 +22,7 @@ img{
 /* -------Loading------- */
 
 @import url("./loading.css");
+
+/* -------product------- */
+
+@import url("./product.css");
