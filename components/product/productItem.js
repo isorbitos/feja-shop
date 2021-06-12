@@ -6,7 +6,7 @@ const ProductItem = ({product}) =>{
         return(
             //TODO sutvarkyt tarpus tapt buttonu
             <>
-            <Link href={`product/${product._id}`}>
+            <Link href={`/product/${product._id}`}>
                 <a className="btn btn-info mr-1  col-sm-6"
                 style={{marginRight: '5x', flex:1}}>View</a>
             </Link>
