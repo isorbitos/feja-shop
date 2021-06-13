@@ -16,7 +16,9 @@ a {
 }
 
 img{
-  object-fit: cover
+  object-fit: cover;
+  object-position: 0 20%
+  
 }
 
 /* -------Loading------- */
