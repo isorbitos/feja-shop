@@ -65,7 +65,7 @@ const DetailProduct = (props) =>{
                     <div className="my-2" >{product.description}</div>
                     <div className="my-2" >{product.content}{product.content}{product.content}</div>
                     {/* style={{maxWidth: "100px"}} */}
-                    <button type="button" class="btn btn-dark d-block my-4" 
+                    <button type="button" className="btn btn-dark d-block my-4" 
                     onClick={()=> dispatch(addToCart(product, cart))}
                     >Buy</button>
                 </div>
