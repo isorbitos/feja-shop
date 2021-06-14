@@ -6,7 +6,7 @@ import reducers from './Reducers'
 export const DataContext = createContext()
 
 export const DataProvider =({children}) =>{
-    const initialState = { notify:{}, auth: {}}
+    const initialState = { notify:{}, auth: {}, cart:[]}
     const [state, dispatch] = useReducer(reducers, initialState)
 
     useEffect(()=>{

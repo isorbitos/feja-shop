@@ -10,7 +10,7 @@ function NavBar(){
 
     const router = useRouter()
     const {state, dispatch} = useContext(DataContext)
-    const {auth} = state
+    const {auth, cart} = state
 
     const isActive = (r) => {
         if(r === router.pathname){
@@ -58,10 +58,24 @@ function NavBar(){
                 <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-                    <ul className="navbar-nav">
+                    <ul className="navbar-nav p-1">
                         <li className="nav-item">
+                            {/* TOTO sutvarkyt css'a */}
                             <Link href="/cart">
-                                <a className={"nav-link" + isActive('/cart')} aria-current="page"><i aria-hidden className="fas fa-shopping-cart"></i> Cart</a>
+                                <a className={"nav-link" + isActive('/cart')} aria-current="page">
+                                    <i aria-hidden className="fas fa-shopping-cart position-relative">
+                                    <span className="position-absolute" style={{
+                                        padding: '3px 5px',
+                                        background: 'pink',
+                                        borderRadius: "50%",
+                                        top:'-10px',
+                                        right: '-10px',
+                                        color: 'white',
+                                        fontSize: '12px',
+                                    }}>
+                                        {cart.length}
+                                        </span></i> Cart
+                                </a>
                             </Link>
                         </li>
                         {
