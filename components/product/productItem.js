@@ -18,11 +18,12 @@ const ProductItem = ({product}) =>{
                 style={{marginRight: '5x', flex:1}}>View</a>
             </Link>
             
-            <a className="btn btn-success ml-1 col-sm-6"
+            <button className="btn btn-success ml-1 col-sm-6" 
             style={{marginLeft: '5x', flex:1}}
+            disabled={product.inStock ===0}
             onClick={()=> dispatch(addToCart(product, cart))} >
                 Buy
-            </a>
+            </button>
             </>
         )
     }
@@ -38,7 +39,7 @@ const ProductItem = ({product}) =>{
                     <div className="col-6"><h6 className="text-danger">{product.price} €</h6></div>
                     <div className="col-6">
                     {
-                        product.inStock >0 ? <h6 className="text-success">In stock: {product.inStock}</h6> : <h6 className="text-danger">Ouot stock!</h6>
+                        product.inStock >0 ? <h6 className="text-success">In stock: {product.inStock}</h6> : <h6 className="text-danger">Out stock!</h6>
                     }
                     </div>
                     

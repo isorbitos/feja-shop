@@ -1,10 +1,15 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { addToCart } from '../../store/Actions'
+import { DataContext } from '../../store/GlobalState'
 import { getData } from '../../utils/fetchData'
 
 const DetailProduct = (props) =>{
     const [product] = useState(props.product)
     const [tab, setTab] = useState(0)
+
+    const {state, dispatch} = useContext(DataContext)
+    const { cart } = state
 
     // const imgRef = useRef()
     //norint panaudot:
@@ -60,7 +65,9 @@ const DetailProduct = (props) =>{
                     <div className="my-2" >{product.description}</div>
                     <div className="my-2" >{product.content}{product.content}{product.content}</div>
                     {/* style={{maxWidth: "100px"}} */}
-                    <button type="button" class="btn btn-dark d-block my-4" >Buy</button>
+                    <button type="button" class="btn btn-dark d-block my-4" 
+                    onClick={()=> dispatch(addToCart(product, cart))}
+                    >Buy</button>
                 </div>
             </div>
             
