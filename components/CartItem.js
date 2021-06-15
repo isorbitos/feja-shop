@@ -35,8 +35,11 @@ const CartItem = ({item, dispatch, cart}) =>{
                 disabled={item.quantity === item.inStock } >+</button>
             </td>
 
-            <td className="align-middle"  style={{minWidth: '150px', cursor:'pointer'}}>
-                <i className="fas fa-trash-alt text-danger" aria-hidden="true"></i>
+            <td className="align-middle"  style={{minWidth: '150px', cursor:'pointer'}} data-bs-toggle="modal" data-bs-target="#exampleModal"
+            onClick ={() => dispatch({
+                type: 'ADD_MODAL', payload: {data: cart, id: item._id, title: item.title}
+            })}    >
+                <i className="fas fa-trash-alt text-danger" aria-hidden="true" style={{fontSize: '18px'}}></i>DEL
             </td>
 
         </tr>
