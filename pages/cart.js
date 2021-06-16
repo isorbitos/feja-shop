@@ -4,12 +4,17 @@ import { DataContext } from '../store/GlobalState';
 import CartItem from '../components/CartItem';
 import Link from 'next/link'
 import { getData } from '../utils/fetchData';
+import PaypalBtn from './paypallBtn';
 
 const Cart = () =>{
     const {state, dispatch} = useContext(DataContext)
     const { cart, auth } = state
 
     const [total, setTotal] = useState(0)
+
+    const [address, setAddress] = useState('')
+    const [mobile, setMobile] = useState('')
+    const [payment, setPayment] = useState(false)
 
     useEffect(()=>{
         const getTotal =() => {
@@ -40,6 +45,12 @@ const Cart = () =>{
       }
     },[])
 
+    const handlePayment = () =>{
+      if(!address || !mobile) return dispatch({type: 'NOTIFY', payload:{error: 'Plese add your addres or phone'}})
+
+      setPayment(true)
+    }
+
     if(cart.length===0) return <img className="img-fluid rounded" src="/maxresdefault.jpg" alt="empty cart!!!"/>
 
     return(
@@ -61,18 +72,31 @@ const Cart = () =>{
                 <form>
                   <h3>shipping</h3>
                   <label htmlFor="address">Address</label>
-                  <input type="text" name="address" id="address" 
+                  <input type="text" name="address" id="address" value={address}
+                  onChange={e => setAddress(e.target.value)}
                   className="form-control mb-2" />
 
                   <label htmlFor="mobile">Mobile</label>
-                  <input type="text" name="mobile" id="mobile" 
+                  <input type="text" name="mobile" id="mobile" value={mobile}
+                  onChange={e => setMobile(e.target.value)}
                   className="form-control mb-2" />
                 </form>
                 <h3>Total: <span className="text-info" >€{total}</span></h3>
 
-                <Link href={auth.user ? '#' : '/signin'}>
-                  <a className="btn btn-dark">Procced with payment</a>
+                {
+                payment ? <PaypalBtn  
+                  total={total}
+                  address={address}
+                  mobile={mobile}
+                  state={state}
+                  dispatch={dispatch}
+                  /> : 
+                <Link href={auth.user ? '#!' : '/signin'}>
+                  <a className="btn btn-dark" onClick={handlePayment}>Procced with payment</a>
                 </Link>
+                }
+                
+                
             
         </div>
       </div>
