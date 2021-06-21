@@ -4,7 +4,7 @@ import { DataContext } from '../store/GlobalState';
 import CartItem from '../components/CartItem';
 import Link from 'next/link'
 import { getData } from '../utils/fetchData';
-import PaypalBtn from '../components/paypallBtn';
+import PaypalBtn from './paypallBtn';
 
 const Cart = () =>{
     const {state, dispatch} = useContext(DataContext)
