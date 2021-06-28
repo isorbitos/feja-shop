@@ -22,8 +22,25 @@ const createOrder = async(req, res) =>{
             user: result.id, address, mobile, cart, total
         })
 
-        res.json({result})
+        cart.filter(item =>{
+            return sold(item._id, item.quantity, item.inStock, item.sold)
+        })
+
+        await newOrder.save()
+
+        res.json(
+            {
+                msg: 'Payment success!!! We will contact to confirm order.',
+                newOrder}
+            )
     } catch (error) {
         return res.status(500).json({error:error.mesage})
     }
+}
+
+const sold = async (id, quantity, oldInStock, oldSold) => {
+    await Products.findOneAndUpdate({_id: id}, {
+        inStock: oldInStock - quantity,
+        sold: quantity + oldSold
+    })
 }
