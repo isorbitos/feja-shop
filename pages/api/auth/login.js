@@ -1,12 +1,12 @@
-import connectDB from "../../../utils/connectDB";
-import bcrypt from 'bcrypt'
+import connectDB from '../../../utils/connectDB'
 import Users from '../../../models/userModel'
-import { createAccessToken, createRefreshToken } from "../../../utils/generateToken";
+import bcrypt from 'bcrypt'
+import { createAccessToken, createRefreshToken } from '../../../utils/generateToken'
 
 
 connectDB()
 
-export default async (req, res)=>{
+export default async (req, res) => {
     switch(req.method){
         case "POST":
             await login(req, res)
@@ -14,25 +14,25 @@ export default async (req, res)=>{
     }
 }
 
-const login = async(req, res) =>{
-    try {
-        const {email, password} = req.body
+const login = async (req, res) => {
+    try{
+        const { email, password } = req.body
 
-        const user  = await Users.findOne({ email})
-        if(!user)return res.status(400).json({err: 'This user does not exist or wrong password'})
+        const user = await Users.findOne({ email })
+        if(!user) return res.status(400).json({err: 'This user does not exist.'})
 
         const isMatch = await bcrypt.compare(password, user.password)
-        if(!isMatch) return res.status(400).json({err: 'This user does not exist or wrong password'})
+        if(!isMatch) return res.status(400).json({err: 'Incorrect password.'})
 
         const access_token = createAccessToken({id: user._id})
         const refresh_token = createRefreshToken({id: user._id})
         
         res.json({
-            msg:"Login Success!",
-            access_token,
+            msg: "Login Success!",
             refresh_token,
-            user:{
-                name:user.name,
+            access_token,
+            user: {
+                name: user.name,
                 email: user.email,
                 role: user.role,
                 avatar: user.avatar,
@@ -40,7 +40,7 @@ const login = async(req, res) =>{
             }
         })
 
-    } catch (error) {
-        return res.status(500).json({err:error.message})
+    }catch(err){
+        return res.status(500).json({err: err.message})
     }
 }

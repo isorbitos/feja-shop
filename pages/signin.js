@@ -8,33 +8,30 @@ import {useRouter} from 'next/router'
 
 const Signin = () =>{
 
-  const initialState = { email: '', password: ''}
+  const initialState = { email: '', password: '' }
   const [userData, setUserData] = useState(initialState)
-  const {email, password} = userData
+  const { email, password } = userData
 
   const {state, dispatch} = useContext(DataContext)
-
-  const {auth} = state
+  const { auth } = state
 
   const router = useRouter()
 
-
-
   const handleChangeInput = e => {
-    const {name, value} = e.target;
+    const {name, value} = e.target
     setUserData({...userData, [name]:value})
-    dispatch({type: 'NOTIFY', payload: {}})
+    dispatch({ type: 'NOTIFY', payload: {} })
   }
 
-  const handleSubmit = async e =>{
+  const handleSubmit = async e => {
     e.preventDefault()
-    dispatch({type: 'NOTIFY', payload: {loading:true}})
+    dispatch({ type: 'NOTIFY', payload: {loading: true} })
     const res = await postData('auth/login', userData)
+    
+    if(res.err) return dispatch({ type: 'NOTIFY', payload: {error: res.err} })
+    dispatch({ type: 'NOTIFY', payload: {success: res.msg} })
 
-    if(res.err) return dispatch({type: 'NOTIFY', payload: {error:res.err}})
-    dispatch({type: 'NOTIFY', payload: {success:res.msg}})
-
-    dispatch({type: 'AUTH', payload: {
+    dispatch({ type: 'AUTH', payload: {
       token: res.access_token,
       user: res.user
     }})
@@ -47,8 +44,8 @@ const Signin = () =>{
     localStorage.setItem('firstLogin', true)
   }
 
-  useEffect(()=>{
-    if(Object.keys(auth).length !==0) router.push("/")
+  useEffect(() => {
+    if(Object.keys(auth).length !== 0) router.push("/")
   }, [auth])
 
     return(

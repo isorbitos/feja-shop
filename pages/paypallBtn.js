@@ -5,7 +5,7 @@ import {postData} from '../utils/fetchData'
 const PaypalBtn =({total, address, mobile, state, dispatch}) =>{
     // TODO apie sit hook pasinagrinet
     const refPaypalBtn = useRef()
-    const {cart, auth} = state
+    const {cart, auth, orders} = state
 
     useEffect(()=>{
         paypal.Buttons({
@@ -30,6 +30,13 @@ const PaypalBtn =({total, address, mobile, state, dispatch}) =>{
                   if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
 
                   dispatch({type: 'ADD_CART', payload: []})
+
+                  const newOrder = {
+                    ...res.newOrder,
+                    user: auth.user
+                  }
+
+                  dispatch({type: 'ADD_ORDERS', payload: [...orders, newOrder]})
                   return dispatch({type: 'NOTIFY', payload: {success: res.msg}})
                 })
 
