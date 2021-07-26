@@ -51,7 +51,7 @@ const createOrder = async(req, res) =>{
 
         res.json(
             {
-                msg: 'Payment success!!! We will contact to confirm order.',
+                msg: 'Order success!!! We will contact to confirm order.',
                 newOrder}
             )
     } catch (error) {

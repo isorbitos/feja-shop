@@ -1,11 +1,14 @@
-import { useEffect, useRef } from "react";
-import {postData} from '../utils/fetchData'
+import { useContext, useEffect, useRef } from "react";
+import { updateItem } from "../store/Actions";
+import { DataContext } from "../store/GlobalState";
+import {patchData} from '../utils/fetchData'
 
 
-const PaypalBtn =({total, address, mobile, state, dispatch}) =>{
+const PaypalBtn =({ order}) =>{
     // TODO apie sit hook pasinagrinet
     const refPaypalBtn = useRef()
-    const {cart, auth, orders} = state
+    const{state, dispatch} = useContext(DataContext)
+    const {auth, orders} = state
 
     useEffect(()=>{
         paypal.Buttons({
@@ -14,7 +17,7 @@ const PaypalBtn =({total, address, mobile, state, dispatch}) =>{
               return actions.order.create({
                 purchase_units: [{
                   amount: {
-                    value: total
+                    value: order.total
                   }
                 }]
               });
@@ -25,18 +28,14 @@ const PaypalBtn =({total, address, mobile, state, dispatch}) =>{
                 
                 dispatch({type: 'NOTIFY', payload: {loading: true}})
 
-                postData('order', {address, mobile, cart, total}, auth.token)
+                patchData(`order/${order._id}`, null, auth.token)
                 .then(res=> {
                   if(res.err) return dispatch({type: 'NOTIFY', payload: {error: res.err}})
 
-                  dispatch({type: 'ADD_CART', payload: []})
+                  dispatch(updateItem(orders, order._id,{
+                    ...order, paid: true, dateOfPayment: new Date().toISOString()
+                  }, 'ADD_ORDERS'))
 
-                  const newOrder = {
-                    ...res.newOrder,
-                    user: auth.user
-                  }
-
-                  dispatch({type: 'ADD_ORDERS', payload: [...orders, newOrder]})
                   return dispatch({type: 'NOTIFY', payload: {success: res.msg}})
                 })
 
