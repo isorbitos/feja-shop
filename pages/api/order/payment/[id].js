@@ -1,6 +1,6 @@
-import connectDB from "../../../utils/connectDB";
-import Orders from '../../../models/orderModel';
-import auth from "../../../middleware/auth";
+import connectDB from "../../../../utils/connectDB";
+import Orders from '../../../../models/orderModel';
+import auth from "../../../../middleware/auth";
 
 connectDB()
 
@@ -17,8 +17,11 @@ const paymentOrder = async(req, res) => {
     try {
         const result = await auth(req, res)
         const {id} = req.query
+        const {paymentId} = req.body
+
         await Orders.findOneAndUpdate({_id: id},{
-            paid:true, dateOfPayment: new Date().toISOString()
+            paid:true, dateOfPayment: new Date().toISOString(), paymentId,
+            method: 'Paypal'
         })
         res.json({msg:'Payment success!'})
     } catch (error) {

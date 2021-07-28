@@ -1,7 +1,21 @@
 import Link from 'next/link'
+import { patchData } from '../utils/fetchData'
 import PaypalBtn from './paypallBtn'
+import {updateItem} from '../store/Actions'
 
-const OrderDetail = ({orderDetail})=>{
+const OrderDetail = ({orderDetail, state, dispatch})=>{
+
+    const {auth, orders} = state
+
+    const handleDelivered = (order) =>{
+        dispatch({type: 'NOTIFY', payload:{loading:true}})
+        patchData(`order/delivered/${order._id}`, null, auth.token)
+        .then(res=>{
+            if(res.err) return dispatch({type: 'NOTIFY', payload:{error:res.err}})
+            
+        })
+    }
+
     return (
         <>
                 {
@@ -21,8 +35,16 @@ const OrderDetail = ({orderDetail})=>{
                                     {
                                         order.delivered ? `Delivered at ${new Date(order.createdAt).toLocaleDateString()}` : 'Delivering...'
                                     }
+                                    {
+                                        auth.user.role ==='admin' && !order.delivered &&
+                                        <button className="btn btn-dark text-uppercase" onClick= { ()=>handleDelivered(order)}>
+                                            Mark as delivered
+                                        </button>
+                                    }
                                 </div>
                                 <h3>Payment</h3>
+                                <h6>Method: {order.method}</h6>
+                                <h6>PaymentId:{order.paymentId}</h6>
                                 <div className={`alert ${order.paid ? 'alert-success' : 'alert-danger'} 
                                 d-flex justify-content-between align-items-center`} role="alert"> 
                                     {
@@ -59,7 +81,7 @@ const OrderDetail = ({orderDetail})=>{
                             </div>
                         </div>
                         {
-                            !order.paid &&
+                            !order.paid && auth.user.role !== 'admin' &&
                             <div className="p-4" style={{maxWidth: '600px'}}>
                                 <h2 className="text-uppercase"> Total: ${order.total} </h2>
                                 <PaypalBtn order={order}/>
